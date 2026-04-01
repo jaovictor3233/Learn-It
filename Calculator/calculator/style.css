@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    display: grid;
+    place-items: center;
+    gap: 1em
+}
+
+input {
+    width: 210px;
+    height: 23px;
+
+}
+
+.grid-container {
+    display: grid;
+    grid-template: repeat(4, 70px)/repeat(3, 70px);
+    gap: 0.45em;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    width: 70px;
+    height: 70px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
