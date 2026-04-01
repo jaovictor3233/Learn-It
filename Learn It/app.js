@@ -25,12 +25,12 @@ class player {
 // variables
 
 let input = document.getElementById('answer')
-
+const img = document.querySelector('.fruit');
 const btn = document.querySelector('.submit');
 const result = document.querySelector('.result');
 // new obj
 const p1 = new player();
-let rightAnswer = false;
+let ra = false;
 //functions
 
 function displayResult(text) {
@@ -40,44 +40,45 @@ function displayResult(text) {
     }, 2000);
     input.value = '';
 }
-function checkAnswer(reply, answer) {
-    if (reply.answer.toLowerCase() === answer[0].name.toLowerCase()) {
-        rightAnswer = true;
-        console.log(rightAnswer);
-        reply.points += 5
-        displayResult(`Correct, the fruit is ${answer[0].name}
-        Gained: ${reply.points}XP`)
 
+function displayFruit(array) {
+    // random number is created
+
+    let random = Math.floor(Math.random() * array.length);
+   img.src = array[random].image;
+   array[0].name = array[random].name;
+   console.log(array[random].image);
+   
+    for (let i = 0; i > random.length; i++) {
+        if (ra) {
+            img.src = array[i].image;
+             array.name = array[random].name;
+        }
+    };
+function checkAnswer(reply, fruits) {
+    if (reply.answer.toLowerCase() === answer.name.toLowerCase()) {
+        ra = true;
+        console.log(ra);
+        reply.points += 5
+        displayResult(`Correct, the fruit is ${answer}
+        Gained: ${reply.points}XP`)
+    } else if (
+        reply.answer.toLowerCase() !== answer && reply.points > 0) {
+        console.log(ra);
+        reply.points -= 2;
+        displayResult(`No, the fruit is ${answer}
+       Xp - ${reply.points}`);
     } else if (!reply.answer) {
-        console.log(rightAnswer);
-        displayResult('Digite sua mensagem');
-    }
-    else if (reply.answer.toLowerCase() !== answer[0].name.toLowerCase() && reply.points > 0 && reply.points) {
-        console.log(rightAnswer);
-        reply.points -= 2
-        displayResult(`No, the fruit is ${answer[0].name}
-       Xp - ${reply.points}`)
+        console.log(ra);
+        displayResult('digite sua mensagem');
     }
 };
-function displayFruit(array) {
-    let random = Math.floor(Math.random() * array.length)
-    let newArray;
-    let limit;
-    if (limit.length !== array.length && rightAnswer === true) {
-
-        for (let i = 0; i < random.length; i++) {
-            limit++;
-            img.src = array[i].img;
-            newArray = array.splice(i)
-        }
-    }
-
 }
 //events 
 btn.addEventListener('click', () => {
     p1.answer = input.value;
-    checkAnswer(p1, fruits);
-    displayFruit(fruits)
+    checkAnswer(p1, fruits[0]);
+    displayFruit(fruits);
 });
 
 
