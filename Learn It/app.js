@@ -12,73 +12,57 @@ const fruits = [{
     name: 'pineapple',
     image: 'fruits/pineapple.jpeg'
 }]
+//variables
+const reply = document.getElementById('answer');
+const img = document.querySelector('.fruit');
+const btn = document.querySelector('.submit');
+const text = document.querySelector('.result');
 // classes  
 //player
 class player {
-
-    constructor() {
+    constructor(reply) {
+        this.answer = reply;
+        this.xp = 0;
         this.points = 0;
-        this.answer = '';
     }
 }
 
-// variables
+class game {
+    constructor(player, array) {
+        this.player = player;
+        this.currentArray = array;
+    }
 
-let input = document.getElementById('answer')
-const img = document.querySelector('.fruit');
-const btn = document.querySelector('.submit');
-const result = document.querySelector('.result');
-// new obj
-const p1 = new player();
-let ra = false;
-//functions
+    checkAnswer() {
 
-function displayResult(text) {
-    result.innerHTML = text;
-    setTimeout(() => {
-        result.innerHTML = '';
-    }, 2000);
-    input.value = '';
-}
-
-function displayFruit(array) {
-    // random number is created
-
-    let random = Math.floor(Math.random() * array.length);
-   img.src = array[random].image;
-   array[0].name = array[random].name;
-   console.log(array[random].image);
-   
-    for (let i = 0; i > random.length; i++) {
-        if (ra) {
-            img.src = array[i].image;
-             array.name = array[random].name;
+        if (this.player.answer === this.currentArray[0].name) {
+            this.displayResult('correct')
+        } else if (this.player.answer !== this.currentArray[0].name) {
+            this.displayResult(`wrong, the fruit is: ${this.currentArray[0].name}`)
         }
-    };
-function checkAnswer(reply, fruits) {
-    if (reply.answer.toLowerCase() === answer.name.toLowerCase()) {
-        ra = true;
-        console.log(ra);
-        reply.points += 5
-        displayResult(`Correct, the fruit is ${answer}
-        Gained: ${reply.points}XP`)
-    } else if (
-        reply.answer.toLowerCase() !== answer && reply.points > 0) {
-        console.log(ra);
-        reply.points -= 2;
-        displayResult(`No, the fruit is ${answer}
-       Xp - ${reply.points}`);
-    } else if (!reply.answer) {
-        console.log(ra);
-        displayResult('digite sua mensagem');
+        console.log(this.player.answer);
+        console.log(this.currentArray[0].name);
+
     }
-};
+    displayResult(Text) {
+        if (document.body.innerHTML) {
+            text.innerHTML = Text;
+            setTimeout(() => {
+                text.innerHTML = '';
+            }, 2000);
+            reply.value = '';
+        } else {
+            document.body.innerHTML = `<h1>Game Over</h1>`
+        }
+    }
 }
+
+const p1 = new player();
+const fruit = new game(p1, fruits)
 //events 
 btn.addEventListener('click', () => {
-    p1.answer = input.value;
-    checkAnswer(p1, fruits[0]);
-    displayFruit(fruits);
+    p1.answer = reply.value
+    fruit.checkAnswer()
 });
 
 
