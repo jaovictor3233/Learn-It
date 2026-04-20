@@ -11,9 +11,36 @@ const fruits = [{
 }, {
     name: 'pineapple',
     image: 'fruits/pineapple.jpeg'
-}]
+}, {
+    name: 'watermelon',
+    image: 'fruits/watermelon.jpeg',
+}, {
+    name: 'avocado',
+    image: 'fruits/avocado.jpeg',
+}, {
+    name: 'pomegranate',
+    image: 'fruits/pomegranate.jpeg',
+}, {
+    name: 'grape',
+    image: 'fruits/grape.jpeg',
+}, {
+    name: 'lemon',
+    image: 'fruits/lemon.jpeg',
+}, {
+    name: 'strawberry',
+    image: 'fruits/strawberry.jpeg',
+}, {
+    name: 'papaya',
+    image: 'fruits/papaya.jpeg',
+}, {
+    name: 'orange',
+    image: 'fruits/orange.jpeg',
+}
+
+]
 //variables
-const btn = document.querySelector('.submit');
+
+
 // classes  
 //player
 class player {
@@ -21,7 +48,7 @@ class player {
         this.answer;
         this.xp = 0;
         this.points = 0;
-        this.wrongAnswers= [];// future features.
+        this.wrongAnswers = [];// future features.
     }
 
     setAnswer(reply) {
@@ -31,8 +58,10 @@ class player {
 }
 
 class game {
-    constructor(player, array, h3Selector, imgSelector, heartsSelector, inputSelector, textSelector) {
+    constructor(player, array, h3Selector, imgSelector, heartsSelector, inputSelector, textSelector, btnSelector, tryBtnSelector) {
         this.h3 = h3Selector
+        this.tryAgain = document.querySelector(tryBtnSelector);
+        this.btn = document.querySelector(btnSelector);
         this.img = document.querySelector(imgSelector);
         this.hearts = document.querySelector(heartsSelector);
         this.input = document.getElementById(inputSelector)
@@ -43,7 +72,25 @@ class game {
         this.correctReply = false;
         this.gameStatus = false
         this.sum = 0;
-        this.life = 3;
+        this.life = 5;
+    }
+
+    Event() {
+
+        this.btn.addEventListener('click', (e) => {
+            const reply = document.getElementById('answer').value;
+            this.player.setAnswer(reply);
+            this.checkAnswer()
+        })
+
+        this.input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const reply = document.getElementById('answer').value;
+                this.player.setAnswer(reply);
+                this.checkAnswer()
+            }
+
+        })
     }
 
     displayGame() {
@@ -69,7 +116,7 @@ class game {
     }
     newArray() {
 
-        if (this.currentArray.length !== 0 && this.life !== 0 ) {
+        if (this.currentArray.length !== 0 && this.life !== 0) {
 
             this.changeRandomNumber();
             console.log('number changed to  :' + this.randomNumber)
@@ -79,7 +126,11 @@ class game {
             console.log(this.currentArray);
         }
         else if (this.currentArray.length === 0 || this.life === 0) {
-            document.body.innerHTML = `<h1>game over</h1> `
+            document.body.innerHTML = `
+            <h1>game over</h1>
+            <button  onclick=' document.body.innerHTML = 
+            class="tryAgain">Tente Novamente</button>
+             `
         }
     }
     changeRandomNumber() {
@@ -93,7 +144,22 @@ class game {
 
     }
     showLife() {
-        if (this.life === 3) {
+        if (this.life === 5) {
+            this.hearts.innerHTML = `
+        <img src='heart/butterfly spritesheet.png' class='h'/>
+        <img src='heart/butterfly spritesheet.png' class='h'/>
+        <img src='heart/butterfly spritesheet.png' class='h'/>
+        <img src='heart/butterfly spritesheet.png' class='h'/>
+        <img src='heart/butterfly spritesheet.png' class='h'/>
+        `
+        }
+        else if (this.life === 4) {
+            this.hearts.innerHTML = `<img src='heart/butterfly spritesheet.png' class='h'/>
+        <img src='heart/butterfly spritesheet.png' class='h'/>
+        <img src='heart/butterfly spritesheet.png' class='h'/>
+        <img src='heart/butterfly spritesheet.png' class='h'/>`
+        }
+        else if (this.life === 3) {
             this.hearts.innerHTML = `<img src='heart/butterfly spritesheet.png' class='h'/>
         <img src='heart/butterfly spritesheet.png' class='h'/>
         <img src='heart/butterfly spritesheet.png' class='h'/>`
@@ -111,7 +177,11 @@ class game {
     }
     checkAnswer() {
 
-        if (this.player.answer.toLowerCase().trim() === this.currentArray[this.randomNumber].name.toLowerCase().trim()) {
+        if (!this.player.answer || this.player.answer.includes(' ')) {
+            this.showLife()
+            this.displayResult('digite sua resposta!');
+        }
+        else if (this.player.answer.toLowerCase().trim() === this.currentArray[this.randomNumber].name.toLowerCase().trim()) {
             this.gameStatus = true
             this.correctReply = true;
             this.sum += 5;
@@ -137,12 +207,9 @@ class game {
             this.changeArray();
             this.newArray()
         }
-        else if (!this.player.answer) {
-            this.showLife()
-            this.displayResult('digite sua resposta!');
-        }
 
-        if (this.life === 0) {
+
+        else if (this.life === 0) {
             this.showLife();
             this.gameStatus = false
             this.img.style.display = 'none'
@@ -179,16 +246,14 @@ class game {
 }
 
 const p1 = new player();
-const fruit = new game(p1, [...fruits], '.h3', '.image', '.hearts', 'answer', '.text');
+const fruit = new game(p1, [...fruits], '.h3', '.image', '.hearts', 'answer', '.text', '.submit', '.tryAgain');
 fruit.newArray()
 fruit.showLife()
+fruit.Event()
 
-//events 
-btn.addEventListener('click', () => {
-    const reply = document.getElementById('answer').value;
-    p1.setAnswer(reply);
-    fruit.checkAnswer()
-});
+
+
+
 
 
 
