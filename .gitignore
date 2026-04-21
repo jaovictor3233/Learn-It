@@ -1,0 +1,18 @@
+# Dependências (A pasta mais pesada, nunca deve ir para o GitHub)
+node_modules/
+
+# Arquivos de Sistema
+.DS_Store
+Thumbs.db
+
+# Logs de erro do NPM
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Configurações locais de IDE (Opcional, mas recomendado)
+.vscode/
+.idea/
+
+# Arquivos de ambiente/senhas (Crucial se você começar a usar chaves de API)
+.env
